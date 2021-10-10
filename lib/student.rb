@@ -33,9 +33,7 @@ class Student
     DB[:conn].execute(sql)
   end
 
-
   def save
-    
     if self.id #is not nil/not empty...
       self.update
     else
@@ -47,8 +45,7 @@ class Student
       DB[:conn].execute(sql, self.name, self.grade)
       @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
     end
-  
-   end
+  end
 
   def self.create (name, grade)
     new_student = Student.new(name, grade)
@@ -61,7 +58,6 @@ class Student
     name = row[1]
     grade = row[2]
     self.new(id, name, grade) #self.new is the same as using Student.new
-    
   end
 
   def self.find_by_name(name)
@@ -71,13 +67,11 @@ class Student
       WHERE name = ?
       LIMIT 1
     SQL
-
     #remember, .execute returns an array of arrays... need to map to get one
     DB[:conn].execute(sql, name).map do |row|
       self.new_from_db(row)
     end.first
   end
-
 
   def update
     sql = <<-SQL
